@@ -1,7 +1,7 @@
 class Solution:
     def xorQueries(self, arr: List[int], queries: List[List[int]]) -> List[int]:
         ## queries 类别存储了 需要异或计算的 下标边界
-        ## 遍历法， 超出时间限制
+        ## 暴力法， 超出时间限制
         res = []
         index = 0
         for l,r in queries:
