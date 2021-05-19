@@ -13,3 +13,13 @@ class Solution:
             else:
                 pre = pre.next
         return head
+
+class Solution:
+    def canJump(self, nums: List[int]) -> bool:
+        """ 判断索引，最大索引是否出界"""
+        maxi =0
+        for i,n in enumerate(nums):
+            if i+n>maxi and maxi>=i:
+                maxi = i+n
+            # if maxi<i:return False
+        return maxi>=i
