@@ -10,8 +10,9 @@ class Solution:
         dfs(nums, [])
         return res
 
-import itertools
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
         #  itertools 库的全排列方法 permutations
+        # print(itertools.permutations(nums))
+        import itertools
         return list(itertools.permutations(nums))
