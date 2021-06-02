@@ -1,25 +1,59 @@
 class Solution:
     def getPermutation(self, n: int, k: int) -> str:
-        kinds = [1]
-        pre = 0
-        # 当 n 等于【1-9】 所有的排序组合
-        for i in range(2, n+1): # 输出 kinds = [1,1,2],  pre = 3
-            # print(n,i)
-            kinds.append(i*kinds[-1])
-            if kinds[-1]*i > k:
-                pre = i
-                break
-        print(kinds, pre, n)
-        res = '123456789'[:n-pre+1] # n-pre = 7, res = '123456'
-        digits = [str(i) for i in range(n-pre,n+1)] # digits = ['7','8','9']
-        print(kinds, res, digits)
-        def dfs(x:int):
-            if x == 1: return digits.pop() 
-            d,m = divmod(x,kinds.pop()) # k = 5, d = 2,  m = 1
-            print(x,d,m)
-            if m == 0:
-                return digits.pop(d) + ''.join(digits[::-1])
-            return digits.pop(d) + dfs(m)
-                # return dfs(pre//i)
+        prefix = [1]
+        digits = '123456789'[:n]
+        more = -1 # 记录大于k的前缀位置
+        # 保存i个元素组成的字符种类， i的阶乘
+        for i in range(2,n+1):
+            cur = i*prefix[-1]
+            prefix.append(cur)
+            if cur>k and more == -1:
+                more = i
+        # 刚好 k的值为prefix列表， 为该位最大值
+        if k in prefix:
+            pos = prefix.index(k)
+            return digits[:n-pos-1] + digits[n-pos-1:][::-1]
+        # 
+        pre = prefix[:more-1]
+        done = digits[:n-more]
+        will = list(digits[n-more:])
+        def dfs(k, tmp):
+            if not pre: return tmp+''.join(pre)
+            d,m = divmod(k,pre.pop())
+            if m==0:
+                return tmp + will.pop(d-1) + ''.join(will[::-1])
+            else:
+                return dfs(m, tmp + will.pop(d))
 
-        return res+dfs(k)
+        return dfs(k,done)
+        
+
+class Solution:
+    def getPermutation(self, n: int, k: int) -> str:
+        pre = [1]
+        digits =['']+[i for i in '123456789'[:n]]
+        ans=[]
+        for i in range(2,n+1):
+            pre.append(i*pre[-1])
+        m = 0
+
+        def dfs(k:int,ans):
+            if not pre: return 
+            d,m = divmod(k,pre.pop())
+
+            if m==k and m<pre[-1]  : 
+                ans.append(digits.pop(0))
+                dfs(m,ans)
+            
+            elif m==0:
+                ans += [digits.pop(d-1)] + digits[::-1]
+            else:
+                ans.append(digits.pop(d))
+                dfs(m,ans)
+            return
+
+        dfs(k,ans)
+        return ''.join(ans)
+
+        
+        
