@@ -26,7 +26,7 @@ class Solution2:
     def combine(self, n, k):
         res = []
 
-        def dfs(start, need, tmp):
+        def  (start, need, tmp):
             print(start,n-start+1, need)
             if n-start+1 < need: return # 剩余值不足
             if need == 0: 
