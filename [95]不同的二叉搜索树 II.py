@@ -42,5 +42,23 @@
 #         self.right = right
 class Solution:
     def generateTrees(self, n: int) -> List[TreeNode]:
-        pass
+        class Solution:
+    def generateTrees(self, n: int) -> List[TreeNode]:
+        """ 回溯法， 解决需要查找所有结果的 """
+        def dfs(start, end):
+            
+            if start > end :
+                return [None]
+            res = []
+            for i in range(start, end+1):
+                left = dfs(start, i-1)
+                right = dfs(i+1, end) 
+
+                for l in left:
+                    for r in right:
+                        root = TreeNode(i,l,r)
+                        res.append(root)
+            return res
+
+        return dfs(1,n)
 # leetcode submit region end(Prohibit modification and deletion)
